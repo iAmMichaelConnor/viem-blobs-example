@@ -1,0 +1,6 @@
+dest/
+node_modules/
+.git/
+.vimdirs/
+package-lock.json
+yarn.lock
