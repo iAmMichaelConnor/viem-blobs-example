@@ -22,10 +22,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@aztec/circuits.js": "^0.45.1",
-    "@aztec/foundation": "^0.45.1",
     "c-kzg": "^4.0.0-alpha.1",
-    "kzg-wasm": "^0.4.0",
     "path": "^0.12.7",
     "viem": "^2.17.2"
   }
