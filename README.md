@@ -14,7 +14,7 @@ In another terminal:
 
 Clone this repo.
 
-`cd blob-lib`
+`cd viem-blobs-example`
 
 `nvm use 18`
 
