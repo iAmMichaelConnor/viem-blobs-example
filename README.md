@@ -1,32 +1,43 @@
-# Copying viem blob txs
+# blob-lib
 
----
-
-In one terminal:
-
-`anvil`
-
-> Or, to run a hardhat network node, which is the only one I can get to work with blob txs: `npx hardhat node`
-
-Make note of the 0th private key.
-
----
-
-In another terminal:
+## Build
 
 Clone this repo.
 
-`cd viem-blobs-example`
-
+`cd blob-lib`
 `nvm use 18`
-
 `yarn install`
+`yarn build`
 
-`export PRIV_KEY=<your 0th anvil private key>`
+## Compiling Contract
 
-e.g. `export PRIV_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`
+To install foundry (which is really a bit of overkill in this situation, because we really just need solc):
 
-`yarn build && yarn start`
+`cd contracts`
+`forge install --no-commit`
+`git submodule update --init --recursive ./lib`
+
+To compile `contracts/src/Blob.sol`:
+From `./contracts`:
+
+`forge build --evm-version cancun`
+
+This creates `./contracts/out/Blob.sol/Blob.json`, which the ts tests then read.
+
+## To run blob submission smart contract tests:
+
+Start a hardhat network node in one window:
+
+`npx hardhat node`
+
+(Note: anvil doesn't seem to work with my blob txs)
+
+Then in another window:
+
+`export PRIV_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` - this is the default testing private key for anvil and hardhat.
+`yarn test`
+
+## Notes
 
 It will first send an ordinary eth transfer tx, to demonstrate that this works.
 
@@ -76,9 +87,4 @@ I tried the same with anvil and got: "Failed to decode transaction" - the same e
 | anvil node  | ❌ `InvalidParamsRpcError: Invalid parameters were provided to the RPC method.`  | ❌ `InvalidParamsRpcError: Invalid parameters were provided to the RPC method.`  |
 | hardhat network node | ❌ `An EIP-4844 (shard blob) call request was received, but Hardhat only supports them via 'eth_sendRawTransaction'. See https://github.com/NomicFoundation/hardhat/issues/5182` but viem isn't sending the tx as raw. | ✅ |
 
-Oooh, it's calling estimate_gas that seems to be killing it. If you specify all gas values (gas limit, max fee per ...) then it seems to work. No, it doesn't...
-
-## Compiling
-
-`cd contracts`
-`forge build --evm-version cancun`
+Oooh, it's calling estimate_gas that seems to be killing it. If you specify all gas values (gas limit, max fee per ...) then it seems to work - for hardhat at least!
