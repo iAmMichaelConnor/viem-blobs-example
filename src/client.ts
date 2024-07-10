@@ -1,6 +1,6 @@
-import { createWalletClient, http, Hex } from "viem";
+import { createWalletClient, publicActions, http, Hex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { mainnet, foundry } from "viem/chains";
+import { mainnet, foundry, hardhat } from "viem/chains";
 
 let privKey = process.env.PRIV_KEY as Hex;
 
@@ -10,12 +10,10 @@ if (!privKey) {
   );
 }
 
-console.log("privKey:", privKey);
-
 export const account = privateKeyToAccount(privKey);
 
 export const client = createWalletClient({
   account,
   chain: foundry, // using anvil to test
   transport: http(),
-});
+}).extend(publicActions);

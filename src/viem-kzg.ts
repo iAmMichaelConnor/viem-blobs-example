@@ -7,8 +7,4 @@ const mainnetTrustedSetupPath = resolve(
   "./node_modules/viem/trusted-setups/mainnet.json"
 );
 
-console.log("mainnetTrustedSetupPath: ", mainnetTrustedSetupPath);
-
 export const viemKzg = setupKzg(cKzg, mainnetTrustedSetupPath);
-
-console.log("viemKzg: ", viemKzg);
